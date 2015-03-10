@@ -17,6 +17,13 @@
 		</ul>
 	</div>
 	<div class="nav_division"><?php echo $this->Html->image('nav-div.gif') ?></div>
+	<div class="nav_text"><?php echo $this->Html->link('Groups', array('controller' => 'groups', 'action' => 'all')); ?>
+		<ul class="sub_nav_menu">
+			<li><?php echo $this->Html->link('Full List', array('controller' => 'groups', 'action' => 'all')); ?></li>
+			<li><?php echo $this->Html->link('Add New', array('controller' => 'groups', 'action' => 'add')); ?></li>
+		</ul>
+	</div>
+	<div class="nav_division"><?php echo $this->Html->image('nav-div.gif') ?></div>
 	<div class="nav_text"><?php echo $this->Html->link('Administrators', array('controller' => 'admins', 'action' => 'all')); ?>
 		<ul class="sub_nav_menu">
 			<li id="adminSearchLink"><a href="#">Search</a></li>
