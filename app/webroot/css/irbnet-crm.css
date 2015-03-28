@@ -1,0 +1,85 @@
+html{
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#wrap {
+	min-height: 100%;
+	position: relative;
+}
+
+#content {
+	padding-bottom: 80px;
+}
+
+#footer {
+	width: 100%;
+	height: 80px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+#footer div {
+	left: 5;
+	bottom: 0;
+	position: absolute;
+}
+
+.navbar-default.navbar {
+	border: none;
+	background-color: white;
+}
+
+.table .list-item a {
+	color: #333;
+}
+
+.list-item a:hover {
+	text-decoration: none;
+}
+
+.bottom_buffer {
+	margin-bottom: 40px;
+}
+
+.title {
+	color: red;
+	text-align: center;
+}
+
+.hover {
+	cursor: pointer;
+}
+
+.action-image {
+	color: #333;
+}
+
+.postLink-link {
+	color: #428bca;
+}
+
+
+
+/** Bootstrap Override **/
+
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+	cursor: pointer;
+}
+
+
+/** JQuiry Override **/
+
+.ui-dialog-titlebar-close {
+	visibility: hidden;
+}
+
+.ui-widget-content a {
+	color: #428bca;
+}

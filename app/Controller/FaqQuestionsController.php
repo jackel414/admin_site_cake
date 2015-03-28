@@ -4,6 +4,7 @@ class FaqQuestionsController extends AppController {
     
     public function beforeFilter(){
         parent::beforeFilter();
+        $this->layout = 'faq_layout';
         $faq_editor = CakeSession::read('Auth.User.faq_editor');
         if ($faq_editor != 1) {
           throw new MethodNotAllowedException(__('Unable to access this page'));
@@ -11,7 +12,7 @@ class FaqQuestionsController extends AppController {
     }
 	public function add() {
 		$this->loadModel('FaqSection');
-		$faqSections = $this->FaqSection->find('list', array('fields' => array('FaqSection.id', 'FaqSection.name')));
+		$faqSections = $this->FaqSection->find('list', array('fields' => array('FaqSection.id', 'FaqSection.name'), 'order' => 'FaqSection.name'));
 		$this->set(compact('faqSections'));
 		if ($this->request->is('post')) {
 			$this->FaqQuestion->create();
@@ -29,7 +30,7 @@ class FaqQuestionsController extends AppController {
     }
 
     $this->loadModel('FaqSection');
-    $faqSections = $this->FaqSection->find('list', array('fields' => array('FaqSection.id', 'FaqSection.name')));
+    $faqSections = $this->FaqSection->find('list', array('fields' => array('FaqSection.id', 'FaqSection.name'), 'order' => 'FaqSection.name'));
     $this->set(compact('faqSections'));
     
     $question = $this->FaqQuestion->findById($id);
