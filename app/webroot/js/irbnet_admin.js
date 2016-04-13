@@ -35,9 +35,14 @@ $(document).ready(function()
 			$('#retiredAdminsList').dialog('open');
 		});
 	});
-
-	//delete or retire popup on Member or Admin View page
-	$(function() {
+/**
+ * RETIRE AN ADMIN OR MEMBER
+ * When a user clicks the delete or retire button on a "view" View,
+ * then it triggers this function. On click, the function opens a dialog box 
+ * described in the View (e.g., View/Admins/view.
+ */ 
+	//delete or retire popup on Member and Admin View page
+	$(function deleteRetirePopup() {
 		$('#deleteRetirePopup').dialog({
 			autoOpen: false,
 			height: 'auto',
@@ -54,9 +59,56 @@ $(document).ready(function()
 			$('#deleteRetirePopup').dialog('open');
 		});
 	});
+	
+	//delete popup on Member View page
+	$(function deletePopup() {
+		$('#deletePopup').dialog({
+			autoOpen: false,
+			height: 'auto',
+			width: 400,
+			modal: true,
+			buttons: {
+				Cancel: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
 
-	//organization search box
-	$(function() {
+		$('#deleteLink').on('click', function() {
+			$('#deletePopup').dialog('open');
+		});
+	});
+/**
+ * UN-RETIRE AN ADMIN OR MEMBER
+ * 
+ */ 
+	//delete or retire popup on Member or Admin View page
+	$(function unRetirePopup() {
+		$('#unRetirePopup').dialog({
+			autoOpen: false,
+			height: 'auto',
+			width: 400,
+			modal: true,
+			buttons: {
+				Cancel: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+
+		$('#unRetireLink').on('click', function() {
+			$('#unRetirePopup').dialog('open');
+		});
+	});
+/**
+ * ORGANIZATION SEARCH
+ * When a user clicks the Members > Search button in the navbar
+ * (view/elements/nav.ctp), then that triggers this function. 
+ *
+ * The javascript opens a search console with a plain-text field and submits
+ * the result to the MembersController.
+ */ 
+	$(function orgSearch() {
 		$("#orgSearchBox").dialog({
 			autoOpen: false,
 			width: 400,
@@ -85,8 +137,15 @@ $(document).ready(function()
 		});
 	});
 
-	//admin search box
-	$(function() {
+/**
+ * ADMINISTRATOR SEARCH
+ * When a user clicks the Administrators > Search button in the navbar
+ * (view/elements/nav.ctp), then that triggers this function. 
+ *
+ * The javascript opens a search console with a plain-text field and submits
+ * the result to the AdminsController.
+ */ 
+	$(function adminSearch() {
 		$("#adminSearchBox").dialog({
 			autoOpen: false,
 			height: 'auto',
@@ -245,12 +304,19 @@ function activateMemberDropdown()
     }
     memberName.val(0);
 }
-
-//populates the "Submitted By" dropdown with a list of org admins
+/**
+ * RETRIEVE AN ADMIN LIST FOR NEW LETTERS AND STAMPS
+ * Gets a list of admins at a specific institution for the "Submitted By" field
+ * when creating a new letter or stamp request. The javascript function detects
+ * if user selects a member, then sends an AJAX request to server based on the 
+ * member id. This function then retrieves the admins associated with that member
+ * id.
+ */ 
 function activateSubmittedByDropdown()
 {
+	// get the member id from the member name field
 	var memberId = document.getElementById("member_name").value;
-	
+	// send member id as get request to list_admin function in LettersController
 	$.ajax({
 		url: 'list_admin',
 		type: 'GET',
@@ -261,6 +327,7 @@ function activateSubmittedByDropdown()
 			alert('Did not work');
 		},
 		success: function(data){
+			// populate submitter name menu with result
 			$("#submitter_name").html(data);
 		}
 	});

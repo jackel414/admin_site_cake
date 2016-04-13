@@ -35,7 +35,15 @@ if($admins) {
 
 <div>
 	<h2><?php echo h($member['Member']['full_name']) . ($member['Member']['active'] ? null : ' - RETIRED'); ?></h2>
-	<h4><?php echo $this->Html->link("<span class='glyphicon glyphicon-pencil action-image' aria-hidden='true'></span>", array('action' => 'edit', $member['Member']['id']), array('escapeTitle' => false)); ?>&nbsp;&nbsp;&nbsp;<a href="#" id="deleteRetireLink"><span class='glyphicon glyphicon-remove action-image' aria-hidden='true'></span></a></h4>
+	<h4><?php echo $this->Html->link("<span class='glyphicon glyphicon-pencil action-image' aria-hidden='true'></span>", array('action' => 'edit', $member['Member']['id']), array('escapeTitle' => false)); ?>
+	&nbsp;&nbsp;&nbsp;
+	<?php echo ($member['Member']['active'] ? "<a href='#' id='deleteRetireLink'><span class='glyphicon glyphicon-remove action-image' aria-hidden='true'></span></a>" : "<a href='#' id='unRetireLink'><span class='glyphicon glyphicon-repeat action-image' aria-hidden='true'></span></a>"); ?>
+	<?php
+		// If Member was recently created, or if this user is Site Admin, then allow Member to be deleted.
+		if (($this->Time->wasWithinLast("21 days", $member['Member']['created'])) || ($this->Session->read('Auth.User.role') == 'site_admin')) {
+			echo "&nbsp;&nbsp;&nbsp;<a href='#' id='deleteLink'><span class='glyphicon glyphicon-trash action-image' aria-hidden='true'></span></a>";
+		}
+	?>
 	
 	<p>&nbsp;</p>
 	
@@ -97,13 +105,16 @@ if($admins) {
 				?>
 				</tbody>
 			</table>
+		<?php endif; ?>
+			<p><?php echo $this->Html->link('Add Administrator', array('controller' => 'admins', 'action' => 'add', $member['Member']['id'])); ?></p>
+		<?php if ($retired_admins): ?>
+			<p>&nbsp;</p>
 			<p>Retired administrators: <?php echo $retired_admins ?>
 			<?php echo ($retired_admins > 0) ? "<p><a href='#' id='retiredAdminsLink'>Click here</a> to see the list.</p>" : null; ?></p>
 			<?php
 					unset($admin);
-				endif;
 			?>
-			<p><?php echo $this->Html->link('Add Administrator', array('controller' => 'admins', 'action' => 'add', $member['Member']['id'])); ?></p>
+		<?php endif; ?>
 	</div>
 
 	<!-- buffer div -->
@@ -222,12 +233,30 @@ if($admins) {
 	</table>
 </div>
 
-<!-- Delete / Retire Member Popup -->
-<div id="deleteRetirePopup" title="Delete / Retire Member">
-	<p>Would you like to retire this member (because they have left IRBNet), or delete them altogether?</p>
+<!-- Retire Member Popup -->
+<div id="deleteRetirePopup" title="Retire Member">
+	<p>You are about to retire a member institution from the Support Portal. Only retire the member if the institution no longer uses IRBNet.</p>
+	<p>If you retire a member, then all corresponding administrators and smart forms will be retired as well.</p>
 	<h6>Please note that deleting a member cannot be undone.</h6>
 	<p>&nbsp;</p>
-	<p><?php echo $this->Form->postLink('Retire', array('controller' => 'members', 'action' => 'retire', $member['Member']['id']), array('class' => 'postLink-link'));?> | <?php echo $this->Form->postLink('Delete', array('controller' => 'members', 'action' => 'delete', $member['Member']['id']));?></p>
+	<p><?php echo $this->Form->postLink('Retire', array('controller' => 'members', 'action' => 'retire', $member['Member']['id']), array('class' => 'postLink-link'));?></p>
+</div>
+
+<!-- Delete Member Popup -->
+<div id="deletePopup" title="Delete Member">
+	<p><strong><em>Important!</em></strong></p>
+	<p>You are about to delete a member institution from the Support Portal!</p>
+	<p>If you delete a member, then all corresponding administrators, smart forms, smart form projects, letters, and interactions will be deleted as well.</p>
+	<h6>Please note that deleting a member cannot be undone.</h6>
+	<p>&nbsp;</p>
+	<p><?php echo $this->Form->postLink('Delete', array('controller' => 'members', 'action' => 'delete', $member['Member']['id']));?></p>
 </div>
 
 
+<!-- Un-Retire Member Popup -->
+<div id="unRetirePopup" title="Reactivate Member">
+	<p>Would you like to reactivate this member and return them to active status?</p>
+	<h6>Please note that reactivating a member does not reactivate their smart forms and administrators.</h6>
+	<p>&nbsp;</p>
+	<p><?php echo $this->Form->postLink('Reactivate', array('action' => 'unretire', $member['Member']['id']));?></p>
+</div>

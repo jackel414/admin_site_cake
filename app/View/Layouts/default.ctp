@@ -56,7 +56,7 @@ $cakeDescription = __d('cake_dev', 'IRBNet Support Portal');
 					</form>
 				</div>
 
-				<div id="adminSearchBox" class="searchBox" title="Search for an Organization">
+				<div id="adminSearchBox" class="searchBox" title="Search for an Administrator">
 					<p>Enter first or last name:<p>
 					<form method="post" action="<?php echo Router::url(array('controller' => 'admins', 'action' => 'search')); ?>">
 						<input type="text" id="searchAdminName" name="searchAdminName" size="30">
@@ -68,7 +68,7 @@ $cakeDescription = __d('cake_dev', 'IRBNet Support Portal');
 
 		<div id="footer" class="container">
 			<div>
-				<p>Copyright &copy; 2002-2015 Research Dataware, LLC.&nbsp;&nbsp;&nbsp;All Rights Reserved.</p>
+				<p>Copyright &copy; 2002-<?php echo date("Y"); ?> Research Dataware, LLC.&nbsp;&nbsp;&nbsp;All Rights Reserved.</p>
 			</div>
 		</div>
 	</div>
